@@ -35,13 +35,6 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
-        <ImageBackground
-          style={{
-            height: height / 2.5,
-          }}
-          resizeMode="contain"
-          source={require("../assets/images/Elingo.png")}
-        />
         <View
           style={{
             paddingHorizontal: Spacing * 4,
@@ -51,12 +44,12 @@ const WelcomeScreen = ({ navigation }) => {
           <Text
             style={{
               fontSize: FontSize.xxLarge,
-              color: Colors.primary,
+              color: Colors.green,
               fontFamily: "Poppins_700Bold",
               textAlign: "center",
             }}
           >
-            Welcome to Lingo
+            Join Lingo Learn
           </Text>
 
           <Text
@@ -82,7 +75,7 @@ const WelcomeScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => navigation.navigate("LoginScreen")}
             style={{
-              backgroundColor: Colors.primary,
+              backgroundColor: Colors.green,
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
               width: "48%",

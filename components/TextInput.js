@@ -1,8 +1,9 @@
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import Colors from "../constants/Colors";
 import FontSize from "../constants/FontSize";
 import Spacing from "../constants/Spacing";
+import { Feather } from "@expo/vector-icons";
 
 const AppTextInput = ({ ...otherProps }) => {
   const [focused, setFocused] = useState(false);
@@ -13,6 +14,7 @@ const AppTextInput = ({ ...otherProps }) => {
       placeholderTextColor={Colors.darkText}
       style={[
         {
+          //flex: 1,
           fontSize: FontSize.small,
           padding: Spacing * 2,
           backgroundColor: Colors.lightPrimary,
@@ -35,4 +37,19 @@ const AppTextInput = ({ ...otherProps }) => {
 
 export default AppTextInput;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  action: {
+    flexDirection: "row",
+    //marginTop: 10,
+    //borderBottomWidth: 1,
+    //borderBottomColor: "#f2f2f2",
+    //paddingBottom: 5,
+  },
+
+  textInput: {
+    flex: 1,
+    marginTop: Platform.OS === "ios" ? 0 : -12,
+    paddingLeft: 10,
+    color: "#05375a",
+  },
+});

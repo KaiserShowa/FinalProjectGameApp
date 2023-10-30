@@ -44,22 +44,12 @@ const LoginScreen = ({ navigation }) => {
           <Text
             style={{
               fontSize: FontSize.xLarge,
-              color: Colors.primary,
+              color: Colors.green,
               fontFamily: "Poppins_400Regular",
               marginVertical: Spacing * 3,
             }}
           >
             Login here
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: FontSize.large,
-              maxWidth: "60%",
-              textAlign: "center",
-            }}
-          >
-            Welcome back you've been missed!
           </Text>
         </View>
         <View
@@ -87,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity
           style={{
             padding: Spacing * 2,
-            backgroundColor: Colors.primary,
+            backgroundColor: Colors.green,
             marginVertical: Spacing * 3,
             borderRadius: Spacing,
             shadowColor: Colors.primary,

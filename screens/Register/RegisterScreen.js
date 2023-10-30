@@ -66,7 +66,7 @@ const RegisterScreen = () => {
           backgroundColor: Colors.gray,
           marginVertical: Spacing * 3,
           borderRadius: Spacing,
-          shadowColor: Colors.primary,
+          shadowColor: Colors.green,
           shadowOffset: {
             width: 0,
             height: Spacing,
@@ -83,7 +83,7 @@ const RegisterScreen = () => {
             fontSize: FontSize.large,
           }}
         >
-          Next
+          Continue
         </Text>
       </TouchableOpacity>
     ) : (
@@ -92,7 +92,7 @@ const RegisterScreen = () => {
         onPress={handleNext}
         style={{
           padding: Spacing * 2,
-          backgroundColor: Colors.primary,
+          backgroundColor: Colors.green,
           marginVertical: Spacing * 3,
           borderRadius: Spacing,
           shadowColor: Colors.primary,
@@ -277,12 +277,12 @@ const RegisterScreen = () => {
           <Text
             style={{
               fontSize: FontSize.xLarge,
-              color: Colors.primary,
+              color: Colors.green,
               fontFamily: "Poppins_400Regular",
               marginVertical: Spacing * 3,
             }}
           >
-            Register here
+            Sign Up
           </Text>
         </View>
 

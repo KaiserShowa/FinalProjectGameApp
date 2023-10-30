@@ -108,6 +108,7 @@ const WelcomeScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => navigation.navigate("RegisterScreen")}
             style={{
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,

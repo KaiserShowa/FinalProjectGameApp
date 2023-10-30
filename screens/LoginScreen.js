@@ -2,7 +2,6 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -20,7 +19,7 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -112,7 +111,7 @@ const LoginScreen = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate("Register")}
+          onPress={() => navigation.navigate("RegisterScreen")}
           style={{
             padding: Spacing,
           }}

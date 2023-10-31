@@ -39,6 +39,7 @@ const AddPassword = ({ onTextChange }) => {
           setPassword(e.target.value);
         }}
         name="password"
+        secureTextEntry={true}
         placeholder="Password"
       />
     </View>

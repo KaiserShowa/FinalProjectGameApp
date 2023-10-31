@@ -58,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <AppTextInput placeholder="Email" />
-          <AppTextInput placeholder="Password" />
+          <AppTextInput secureTextEntry={true} placeholder="Password" />
         </View>
 
         <View>

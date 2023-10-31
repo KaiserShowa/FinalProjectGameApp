@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 
 import Spacing from "../constants/Spacing";
@@ -41,6 +42,13 @@ const WelcomeScreen = ({ navigation }) => {
             paddingTop: Spacing * 4,
           }}
         >
+          <Image
+            animation="bounceIn"
+            duraton="1500"
+            source={require("../assets/images/logo2.png")}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
           <Text
             style={{
               fontSize: FontSize.xxLarge,
@@ -61,8 +69,7 @@ const WelcomeScreen = ({ navigation }) => {
               marginTop: Spacing * 2,
             }}
           >
-            Explore all the existing job roles based on your interest and study
-            major
+            Create a profile now so you can start learning and save progress.
           </Text>
         </View>
         <View

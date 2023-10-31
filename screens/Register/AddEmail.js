@@ -1,7 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import React from "react";
 import Spacing from "../../constants/Spacing";
 import { useState } from "react";
+import Colors from "../../constants/Colors";
+import FontSize from "../../constants/FontSize";
 
 import AppTextInput from "../../components/TextInput";
 
@@ -30,6 +32,16 @@ const AddEmail = ({ onTextChange }) => {
         marginVertical: Spacing * 3,
       }}
     >
+      <Text
+        style={{
+          fontFamily: "Poppins_700Bold",
+          color: Colors.darkText,
+          textAlign: "center",
+          fontSize: FontSize.xLarge,
+        }}
+      >
+        What is your email address?
+      </Text>
       <AppTextInput
         onChangeText={(text) => {
           onTextChange(text);

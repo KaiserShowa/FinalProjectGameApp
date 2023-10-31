@@ -325,18 +325,7 @@ const RegisterScreen = () => {
           style={{
             alignItems: "center",
           }}
-        >
-          <Text
-            style={{
-              fontSize: FontSize.xLarge,
-              color: Colors.green,
-              fontFamily: "Poppins_400Regular",
-              marginVertical: Spacing * 3,
-            }}
-          >
-            Sign Up
-          </Text>
-        </View>
+        ></View>
 
         {/* Render progress bar */}
         {renderProgressBar()}

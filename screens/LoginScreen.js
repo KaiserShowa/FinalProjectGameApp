@@ -45,11 +45,11 @@ const LoginScreen = ({ navigation }) => {
             style={{
               fontSize: FontSize.xLarge,
               color: Colors.green,
-              fontFamily: "Poppins_400Regular",
+              fontFamily: "Poppins_500Medium",
               marginVertical: Spacing * 3,
             }}
           >
-            Login here
+            Hello there!
           </Text>
         </View>
         <View

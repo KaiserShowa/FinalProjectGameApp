@@ -37,6 +37,7 @@ const RegisterScreen = () => {
   const [isButtonActive, setIsButtonActive] = useState(true);
   const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
   const [text, setText] = useState("");
+  const [visibleBack, setVisibleBack] = useState(false);
 
   const handleTextChange = (newText) => {
     setText(newText);
@@ -64,7 +65,7 @@ const RegisterScreen = () => {
         style={{
           padding: Spacing * 2,
           backgroundColor: Colors.gray,
-          marginVertical: Spacing * 3,
+          marginVertical: Spacing * 10,
           borderRadius: Spacing,
           shadowColor: Colors.green,
           shadowOffset: {
@@ -80,6 +81,7 @@ const RegisterScreen = () => {
             fontFamily: "Poppins_400Regular",
             color: Colors.onPrimary,
             textAlign: "center",
+
             fontSize: FontSize.large,
           }}
         >
@@ -93,7 +95,7 @@ const RegisterScreen = () => {
         style={{
           padding: Spacing * 2,
           backgroundColor: Colors.green,
-          marginVertical: Spacing * 3,
+          marginVertical: Spacing * 10,
           borderRadius: Spacing,
           shadowColor: Colors.primary,
           shadowOffset: {
@@ -118,6 +120,41 @@ const RegisterScreen = () => {
     );
   };
 
+  const renderBack = () => {
+    if (currentComponentIndex > 0)
+      return (
+        <TouchableOpacity
+          //disabled={isButtonActive}
+
+          onPress={handleBack}
+          style={{
+            padding: Spacing,
+            backgroundColor: Colors.primary,
+
+            borderRadius: Spacing,
+            shadowColor: Colors.primary,
+            shadowOffset: {
+              width: 0,
+              height: Spacing,
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: Spacing,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              color: Colors.onPrimary,
+              textAlign: "center",
+              fontSize: FontSize.large,
+            }}
+          >
+            Back
+          </Text>
+        </TouchableOpacity>
+      );
+  };
+
   const handleNext = () => {
     if (currentComponentIndex < userDetails.length - 1) {
       setCurrentComponentIndex(currentComponentIndex + 1);
@@ -127,6 +164,21 @@ const RegisterScreen = () => {
 
     Animated.timing(progressBar, {
       toValue: currentComponentIndex + 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const handleBack = () => {
+    if (currentComponentIndex > 0) {
+      setCurrentComponentIndex(currentComponentIndex - 1);
+      setIsButtonActive(true);
+    } else {
+      navigation.goBack(); // Use navigation to go back to the previous screen
+    }
+
+    Animated.timing(progressBar, {
+      toValue: currentComponentIndex - 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -210,7 +262,7 @@ const RegisterScreen = () => {
 
         <View
           style={{
-            marginTop: Spacing,
+            marginTop: Spacing * 2,
             flexDirection: "row",
             justifyContent: "center",
           }}
@@ -294,6 +346,8 @@ const RegisterScreen = () => {
 
         {/* Render next button */}
         {renderNext()}
+
+        {renderBack()}
 
         {/* Render social accounts */}
         {renderSocials()}

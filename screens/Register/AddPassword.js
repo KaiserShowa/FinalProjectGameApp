@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 import React from "react";
 import Spacing from "../../constants/Spacing";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Colors from "../../constants/Colors";
 import FontSize from "../../constants/FontSize";
-
-import AppTextInput from "../../components/TextInput";
+import { useSelector, useDispatch } from "react-redux";
+import { setPassword } from "../../redux/userSlice";
 
 import {
   useFonts,
@@ -14,8 +14,23 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-const AddPassword = ({ onTextChange }) => {
-  const [password, setPassword] = useState("");
+const AddPassword = ({ formData, setFormData }) => {
+  const [pass, setPass] = useState("");
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const [focused, setFocused] = useState(false);
+
+  const dispatchAction = () => {
+    dispatch(setPassword(pass));
+  };
+
+  useEffect(() => {
+    if (!!user.password) {
+      setPass(user.password);
+    }
+  }, []);
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -32,27 +47,37 @@ const AddPassword = ({ onTextChange }) => {
         marginVertical: Spacing * 3,
       }}
     >
-      <Text
-        style={{
-          fontFamily: "Poppins_700Bold",
-          color: Colors.darkText,
-          textAlign: "center",
-          fontSize: FontSize.xLarge,
-        }}
-      >
-        Create a password?
-      </Text>
-      <AppTextInput
-        onChangeText={(text) => {
-          onTextChange(text);
-        }}
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-        name="password"
+      <TextInput
+        value={formData.password}
         secureTextEntry={true}
         placeholder="Password"
+        name="password"
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        placeholderTextColor={Colors.darkText}
+        onChangeText={(e) => {
+          setFormData({ ...formData, password: e });
+          //onTextChange(e);
+          //dispatchAction;
+        }}
+        style={[
+          {
+            //flex: 1,
+            fontSize: FontSize.small,
+            padding: Spacing * 2,
+            backgroundColor: Colors.lightPrimary,
+            borderRadius: Spacing,
+            marginVertical: Spacing,
+          },
+          focused && {
+            borderWidth: 3,
+            borderColor: Colors.primary,
+            shadowOffset: { width: 4, height: Spacing },
+            shadowColor: Colors.primary,
+            shadowOpacity: 0.2,
+            shadowRadius: Spacing,
+          },
+        ]}
       />
     </View>
   );

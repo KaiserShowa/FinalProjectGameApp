@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 import React from "react";
 import Spacing from "../../constants/Spacing";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Colors from "../../constants/Colors";
 import FontSize from "../../constants/FontSize";
-
-import AppTextInput from "../../components/TextInput";
+import { useSelector, useDispatch } from "react-redux";
+import { setEmail } from "../../redux/userSlice";
 
 import {
   useFonts,
@@ -14,8 +14,23 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-const AddEmail = ({ onTextChange }) => {
-  const [email, setEmail] = useState("");
+const AddEmail = ({ formData, setFormData }) => {
+  const [mail, setMail] = useState("");
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const [focused, setFocused] = useState(false);
+
+  const dispatchAction = () => {
+    dispatch(setEmail(mail));
+  };
+
+  useEffect(() => {
+    if (!!user.email) {
+      setMail(user.email);
+    }
+  }, []);
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -32,27 +47,48 @@ const AddEmail = ({ onTextChange }) => {
         marginVertical: Spacing * 3,
       }}
     >
-      <Text
-        style={{
-          fontFamily: "Poppins_700Bold",
-          color: Colors.darkText,
-          textAlign: "center",
-          fontSize: FontSize.xLarge,
+      <TextInput
+        value={formData.email}
+        placeholder="Email address"
+        name="email"
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        placeholderTextColor={Colors.darkText}
+        onChangeText={(e) => {
+          setFormData({ ...formData, email: e });
+          //onTextChange(e);
+          //dispatchAction;
         }}
-      >
-        What is your email address?
-      </Text>
-      <AppTextInput
-        onChangeText={(text) => {
-          onTextChange(text);
-        }}
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
+        style={[
+          {
+            //flex: 1,
+            fontSize: FontSize.small,
+            padding: Spacing * 2,
+            backgroundColor: Colors.lightPrimary,
+            borderRadius: Spacing,
+            marginVertical: Spacing,
+          },
+          focused && {
+            borderWidth: 3,
+            borderColor: Colors.primary,
+            shadowOffset: { width: 4, height: Spacing },
+            shadowColor: Colors.primary,
+            shadowOpacity: 0.2,
+            shadowRadius: Spacing,
+          },
+        ]}
+      />
+
+      {/* <AppTextInput
+        value={mail}
+        onChangeText={(e) => {
+          setMail(e);
+          onTextChange(e);
+          dispatchAction;
         }}
         name="email"
         placeholder="Email address"
-      />
+      /> */}
     </View>
   );
 };

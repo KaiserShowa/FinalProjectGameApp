@@ -4,14 +4,17 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput,
 } from "react-native";
 import React from "react";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/userActions";
 
-import AppTextInput from "../components/TextInput";
 import {
   useFonts,
   Poppins_400Regular,
@@ -20,6 +23,24 @@ import {
 } from "@expo-google-fonts/poppins";
 
 const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [focused, setFocused] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleChangeEmail = (event) => {
+    setEmail(event);
+  };
+
+  const handleChangePass = (event) => {
+    setPassword(event);
+  };
+
+  const handleSubmit = () => {
+    dispatch(login(email, password));
+  };
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -57,8 +78,62 @@ const LoginScreen = ({ navigation }) => {
             marginVertical: Spacing * 3,
           }}
         >
-          <AppTextInput placeholder="Email" />
-          <AppTextInput secureTextEntry={true} placeholder="Password" />
+          <TextInput
+            value={email}
+            name="email"
+            onChangeText={handleChangeEmail}
+            placeholder="Email"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            placeholderTextColor={Colors.darkText}
+            style={[
+              {
+                //flex: 1,
+                fontSize: FontSize.small,
+                padding: Spacing * 2,
+                backgroundColor: Colors.lightPrimary,
+                borderRadius: Spacing,
+                marginVertical: Spacing,
+              },
+              focused && {
+                borderWidth: 3,
+                borderColor: Colors.primary,
+                shadowOffset: { width: 4, height: Spacing },
+                shadowColor: Colors.primary,
+                shadowOpacity: 0.2,
+                shadowRadius: Spacing,
+              },
+            ]}
+          />
+
+          <TextInput
+            secureTextEntry={true}
+            value={password}
+            name="password"
+            onChangeText={handleChangePass}
+            placeholder="Password"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            placeholderTextColor={Colors.darkText}
+            style={[
+              {
+                //flex: 1,
+                fontSize: FontSize.small,
+                padding: Spacing * 2,
+                backgroundColor: Colors.lightPrimary,
+                borderRadius: Spacing,
+                marginVertical: Spacing,
+              },
+              focused && {
+                borderWidth: 3,
+                borderColor: Colors.primary,
+                shadowOffset: { width: 4, height: Spacing },
+                shadowColor: Colors.primary,
+                shadowOpacity: 0.2,
+                shadowRadius: Spacing,
+              },
+            ]}
+          />
         </View>
 
         <View>
@@ -75,6 +150,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
 
         <TouchableOpacity
+          onPress={handleSubmit}
           style={{
             padding: Spacing * 2,
             backgroundColor: Colors.green,

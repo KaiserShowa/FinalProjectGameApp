@@ -6,10 +6,16 @@ import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/Register/RegisterScreen";
 import SplashScreen from "./screens/SplashScreen";
+import AddName from "./screens/Register/AddName";
+import AddEmail from "./screens/Register/AddEmail";
+import AddAge from "./screens/Register/AddAge";
+import AddPassword from "./screens/Register/AddPassword";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <>
       <StatusBar />
@@ -19,11 +25,23 @@ export default function App() {
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="AddName" component={AddName} />
+          <Stack.Screen name="AddAge" component={AddAge} />
+          <Stack.Screen name="AddEmail" component={AddEmail} />
+          <Stack.Screen name="AddPassword" component={AddPassword} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
+
+export default () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {},

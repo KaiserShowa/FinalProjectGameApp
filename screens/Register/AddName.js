@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 import React from "react";
 import Spacing from "../../constants/Spacing";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Colors from "../../constants/Colors";
 import FontSize from "../../constants/FontSize";
-
-import AppTextInput from "../../components/TextInput";
+import { useSelector, useDispatch } from "react-redux";
+import { setFullname } from "../../redux/userSlice";
 
 import {
   useFonts,
@@ -14,8 +14,22 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-const AddName = ({ onTextChange }) => {
-  const [fullName, setFullName] = useState("");
+const AddName = ({ formData, setFormData }) => {
+  const [fname, setFname] = useState("");
+  const [focused, setFocused] = useState(false);
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const dispatchAction = () => {
+    dispatch(setFullname(fname));
+  };
+
+  useEffect(() => {
+    if (!!user.fullName) {
+      setFname(user.fullName);
+    }
+  }, []);
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -40,19 +54,38 @@ const AddName = ({ onTextChange }) => {
           textAlign: "center",
           fontSize: FontSize.xLarge,
         }}
-      >
-        What is your name?
-      </Text>
-      <AppTextInput
-        onChangeText={(text) => {
-          onTextChange(text);
-        }}
-        value={fullName}
-        onChange={(e) => {
-          setFullName(e.target.value);
-        }}
+      ></Text>
+
+      <TextInput
+        value={formData.fullName}
         placeholder="Full Name"
         name="fullName"
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        placeholderTextColor={Colors.darkText}
+        onChangeText={(e) => {
+          setFormData({ ...formData, fullName: e });
+          //onTextChange(e);
+          //dispatchAction;
+        }}
+        style={[
+          {
+            //flex: 1,
+            fontSize: FontSize.small,
+            padding: Spacing * 2,
+            backgroundColor: Colors.lightPrimary,
+            borderRadius: Spacing,
+            marginVertical: Spacing,
+          },
+          focused && {
+            borderWidth: 3,
+            borderColor: Colors.primary,
+            shadowOffset: { width: 4, height: Spacing },
+            shadowColor: Colors.primary,
+            shadowOpacity: 0.2,
+            shadowRadius: Spacing,
+          },
+        ]}
       />
     </View>
   );

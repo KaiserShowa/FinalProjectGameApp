@@ -12,6 +12,8 @@ import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { registerUser } from "../../redux/userActions";
 
 import AddName from "./AddName";
 import AddEmail from "./AddEmail";
@@ -25,16 +27,41 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-const userDetails = [AddName, AddAge, AddEmail, AddPassword];
-
 const RegisterScreen = () => {
+  const [formCount, setFormCount] = useState(0);
+  const formTitles = [
+    " What is your name?",
+    " How old are you?",
+    " What is your email address?",
+    " Create a password?",
+  ];
+  const dispatch = useDispatch();
+  const email = useSelector((state) => state.user.email);
+  const password = useSelector((state) => state.user.password);
+  const age = useSelector((state) => state.user.Age);
+  const fullname = useSelector((state) => state.user.fullName);
+
+  const [formData, setFormData] = useState({
+    fullName: fullname,
+    Age: age,
+    email: email,
+    password: password,
+  });
+
+  console.log(formData);
+
+  const handleSubmit = () => {
+    const { fullName, Age, email, password } = formData; // Correct the property names here
+    dispatch(registerUser(fullName, Age, email, password));
+  };
+
   const [progressBar, setProgressBar] = useState(new Animated.Value(0));
   const progressAnim = progressBar.interpolate({
-    inputRange: [0, userDetails.length],
+    inputRange: [0, formTitles.length],
     outputRange: ["0%", "100%"],
   });
 
-  const [isButtonActive, setIsButtonActive] = useState(true);
+  const [isButtonActive, setIsButtonActive] = useState(false);
   const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
   const [text, setText] = useState("");
   const [visibleBack, setVisibleBack] = useState(false);
@@ -54,8 +81,6 @@ const RegisterScreen = () => {
   if (!fontsLoaded) {
     return null; // Or a loading indicator
   }
-
-  const UserDetailsComponent = userDetails[currentComponentIndex];
 
   const renderNext = () => {
     return isButtonActive ? (
@@ -120,8 +145,23 @@ const RegisterScreen = () => {
     );
   };
 
+  const renderTitle = () => {
+    return (
+      <Text
+        style={{
+          fontFamily: "Poppins_700Bold",
+          color: Colors.darkText,
+          textAlign: "center",
+          fontSize: FontSize.xLarge,
+        }}
+      >
+        {formTitles[formCount]}
+      </Text>
+    );
+  };
+
   const renderBack = () => {
-    if (currentComponentIndex > 0)
+    if (formCount > 0)
       return (
         <TouchableOpacity
           //disabled={isButtonActive}
@@ -155,30 +195,38 @@ const RegisterScreen = () => {
       );
   };
 
-  const handleNext = () => {
-    if (currentComponentIndex < userDetails.length - 1) {
-      setCurrentComponentIndex(currentComponentIndex + 1);
-
-      setIsButtonActive(true);
+  const formDisplay = () => {
+    if (formCount == 0) {
+      return <AddName formData={formData} setFormData={setFormData} />;
+    } else if (formCount == 1) {
+      return <AddAge formData={formData} setFormData={setFormData} />;
+    } else if (formCount == 2) {
+      return <AddEmail formData={formData} setFormData={setFormData} />;
+    } else if (formCount == 3) {
+      return <AddPassword formData={formData} setFormData={setFormData} />;
     }
+  };
+
+  const handleNext = () => {
+    setFormCount(formCount + 1);
 
     Animated.timing(progressBar, {
-      toValue: currentComponentIndex + 1,
+      toValue: formCount + 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
   };
 
   const handleBack = () => {
-    if (currentComponentIndex > 0) {
-      setCurrentComponentIndex(currentComponentIndex - 1);
+    if (formCount > 0) {
+      setFormCount(formCount - 1);
       setIsButtonActive(true);
     } else {
       navigation.goBack(); // Use navigation to go back to the previous screen
     }
 
     Animated.timing(progressBar, {
-      toValue: currentComponentIndex - 1,
+      toValue: formCount - 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -214,6 +262,7 @@ const RegisterScreen = () => {
   const renderSubmitButton = () => {
     return (
       <TouchableOpacity
+        onPress={handleSubmit}
         style={{
           padding: Spacing * 2,
           backgroundColor: Colors.primary,
@@ -236,7 +285,7 @@ const RegisterScreen = () => {
             fontSize: FontSize.large,
           }}
         >
-          Sign in
+          submit
         </Text>
       </TouchableOpacity>
     );
@@ -330,11 +379,13 @@ const RegisterScreen = () => {
         {/* Render progress bar */}
         {renderProgressBar()}
 
-        {/* Render components dynamically */}
-        <UserDetailsComponent onTextChange={handleTextChange} />
+        {/* {form title} */}
+        {renderTitle()}
 
+        {/* Render components dynamically */}
+        {formDisplay()}
         {/* Render next button */}
-        {renderNext()}
+        {formCount != 4 ? renderNext() : renderSubmitButton()}
 
         {renderBack()}
 

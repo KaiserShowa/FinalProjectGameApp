@@ -87,17 +87,6 @@ const AddName = ({ formData, setFormData }) => {
           },
         ]}
       />
-
-      {/* <AppTextInput
-        value={fname}
-        onChangeText={(e) => {
-          setFname(e);
-          onTextChange(e);
-          dispatchAction;
-        }}
-        placeholder="Full Name"
-        name="fullName"
-      /> */}
     </View>
   );
 };

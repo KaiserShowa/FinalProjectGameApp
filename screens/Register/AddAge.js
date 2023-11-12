@@ -14,7 +14,7 @@ import {
 } from "@expo-google-fonts/poppins";
 
 const AddAge = ({ formData, setFormData }) => {
-  const [agee, setAgee] = useState("");
+  const [agee, setAgee] = useState(0);
   const [focused, setFocused] = useState(false);
 
   const dispatch = useDispatch();

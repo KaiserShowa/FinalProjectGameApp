@@ -1,5 +1,11 @@
 import { setFullname, setAge, setEmail, setPassword } from "./userSlice";
 import { supabase } from "../supabase/supabase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  USER_LOGIN_FAIL,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+} from "../constants/userConstant";
 
 export const registerUser =
   (fullName, Age, email, password) => async (dispatch) => {
@@ -13,8 +19,12 @@ export const registerUser =
       const { user, error } = await supabase.auth.signUp({
         email: email,
         password: password,
-        fullName: fullName,
-        Age: Age,
+        options: {
+          data: {
+            full_name: fullName,
+            age: Age,
+          },
+        },
       });
 
       if (error) {
@@ -28,7 +38,7 @@ export const registerUser =
 
       // User registration successful
       // You can update the user state if needed
-      console.log("User registered successfully:", user);
+      console.log("User registered successfully");
 
       return {
         success: true,
@@ -44,3 +54,43 @@ export const registerUser =
       };
     }
   };
+
+export const login = (email, password) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_LOGIN_REQUEST });
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    //console.log(data);
+
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: { email: data.email, password: data.password },
+    });
+
+    AsyncStorage.setItem("user", JSON.stringify(data));
+
+    if (error) {
+      // Handle registration error
+      console.error("Login error: ", error);
+      return {
+        success: false,
+        message: "User Login failed",
+      };
+    }
+
+    return {
+      success: true,
+      message: "User Login successfully",
+    };
+  } catch (error) {
+    dispatch({ type: USER_LOGIN_FAIL });
+    return {
+      success: false,
+      message: "An error occurred during Login",
+    };
+  }
+};

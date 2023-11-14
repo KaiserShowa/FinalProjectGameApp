@@ -12,6 +12,7 @@ import AddAge from "./screens/Register/AddAge";
 import AddPassword from "./screens/Register/AddPassword";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import SuccessScreen from "./screens/SuccessScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ function App() {
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
           <Stack.Screen name="AddName" component={AddName} />
           <Stack.Screen name="AddAge" component={AddAge} />
           <Stack.Screen name="AddEmail" component={AddEmail} />

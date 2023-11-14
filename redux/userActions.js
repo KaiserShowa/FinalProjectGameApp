@@ -8,7 +8,8 @@ import {
 } from "../constants/userConstant";
 
 export const registerUser =
-  (fullName, Age, email, password) => async (dispatch) => {
+  (fullName, Age, email, password, navigation) => async (dispatch) => {
+    //const navigation = useNavigation();
     try {
       // Set user data in the Redux store
       dispatch(setFullname(fullName));
@@ -39,6 +40,8 @@ export const registerUser =
       // User registration successful
       // You can update the user state if needed
       console.log("User registered successfully");
+      alert("Registeration success");
+      navigation.navigate("SuccessScreen");
 
       return {
         success: true,
@@ -64,7 +67,7 @@ export const login = (email, password) => async (dispatch) => {
       password: password,
     });
 
-    //console.log(data);
+    console.log(data);
 
     dispatch({
       type: USER_LOGIN_SUCCESS,

@@ -27,7 +27,7 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   const [formCount, setFormCount] = useState(0);
   const formTitles = [
     " What is your name?",
@@ -52,7 +52,7 @@ const RegisterScreen = () => {
 
   const handleSubmit = () => {
     const { fullName, Age, email, password } = formData; // Correct the property names here
-    dispatch(registerUser(fullName, Age, email, password));
+    dispatch(registerUser(fullName, Age, email, password, navigation));
   };
 
   const [progressBar, setProgressBar] = useState(new Animated.Value(0));
@@ -62,7 +62,6 @@ const RegisterScreen = () => {
   });
 
   const [isButtonActive, setIsButtonActive] = useState(false);
-  const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
   const [text, setText] = useState("");
   const [visibleBack, setVisibleBack] = useState(false);
 
@@ -220,7 +219,7 @@ const RegisterScreen = () => {
   const handleBack = () => {
     if (formCount > 0) {
       setFormCount(formCount - 1);
-      setIsButtonActive(true);
+      //setIsButtonActive(true);
     } else {
       navigation.goBack(); // Use navigation to go back to the previous screen
     }

@@ -14,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userActions";
+import { Feather } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   useFonts,
@@ -26,6 +28,19 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [focused, setFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Invalid email or password");
+      return false;
+    }
+  };
 
   const dispatch = useDispatch();
 
@@ -38,7 +53,9 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    dispatch(login(email, password));
+    if (validateForm()) {
+      dispatch(login(email, password));
+    }
   };
 
   const [fontsLoaded] = useFonts({
@@ -73,67 +90,106 @@ const LoginScreen = ({ navigation }) => {
             Hello there!
           </Text>
         </View>
+        <Text
+          style={{
+            fontFamily: "Poppins_400Regular",
+            fontSize: FontSize.small,
+            color: "red", // Use a color for error messages
+            alignSelf: "center", // Align error message to the left
+            marginVertical: Spacing / 2,
+          }}
+        >
+          {error}
+        </Text>
         <View
           style={{
             marginVertical: Spacing * 3,
           }}
         >
-          <TextInput
-            value={email}
-            name="email"
-            onChangeText={handleChangeEmail}
-            placeholder="Email"
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            placeholderTextColor={Colors.darkText}
-            style={[
-              {
-                //flex: 1,
-                fontSize: FontSize.small,
-                padding: Spacing * 2,
-                backgroundColor: Colors.lightPrimary,
-                borderRadius: Spacing,
-                marginVertical: Spacing,
-              },
-              focused && {
-                borderWidth: 3,
-                borderColor: Colors.primary,
-                shadowOffset: { width: 4, height: Spacing },
-                shadowColor: Colors.primary,
-                shadowOpacity: 0.2,
-                shadowRadius: Spacing,
-              },
-            ]}
-          />
+          <View>
+            <TextInput
+              value={email}
+              name="email"
+              onChangeText={handleChangeEmail}
+              placeholder="Email"
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              placeholderTextColor={Colors.darkText}
+              style={[
+                {
+                  //flex: 1,
+                  fontSize: FontSize.small,
+                  padding: Spacing * 2,
+                  backgroundColor: Colors.lightPrimary,
+                  borderRadius: Spacing,
+                  marginVertical: Spacing,
+                },
+                focused && {
+                  borderWidth: 3,
+                  borderColor: Colors.primary,
+                  shadowOffset: { width: 4, height: Spacing },
+                  shadowColor: Colors.primary,
+                  shadowOpacity: 0.2,
+                  shadowRadius: Spacing,
+                },
+              ]}
+            />
+            <Feather
+              style={{
+                position: "absolute",
+                top: Spacing * 3,
+                right: Spacing * 2,
+              }}
+              name="mail"
+              size={20}
+              color={Colors.darkText}
+            />
+          </View>
+          <View>
+            <TextInput
+              secureTextEntry={!showPassword}
+              value={password}
+              name="password"
+              onChangeText={handleChangePass}
+              placeholder="Password"
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              placeholderTextColor={Colors.darkText}
+              style={[
+                {
+                  //flex: 1,
+                  fontSize: FontSize.small,
+                  padding: Spacing * 2,
+                  backgroundColor: Colors.lightPrimary,
+                  borderRadius: Spacing,
+                  marginVertical: Spacing,
+                },
+                focused && {
+                  borderWidth: 3,
+                  borderColor: Colors.primary,
+                  shadowOffset: { width: 4, height: Spacing },
+                  shadowColor: Colors.primary,
+                  shadowOpacity: 0.2,
+                  shadowRadius: Spacing,
+                },
+              ]}
+            />
 
-          <TextInput
-            secureTextEntry={true}
-            value={password}
-            name="password"
-            onChangeText={handleChangePass}
-            placeholder="Password"
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            placeholderTextColor={Colors.darkText}
-            style={[
-              {
-                //flex: 1,
-                fontSize: FontSize.small,
-                padding: Spacing * 2,
-                backgroundColor: Colors.lightPrimary,
-                borderRadius: Spacing,
-                marginVertical: Spacing,
-              },
-              focused && {
-                borderWidth: 3,
-                borderColor: Colors.primary,
-                shadowOffset: { width: 4, height: Spacing },
-                shadowColor: Colors.primary,
-                shadowOpacity: 0.2,
-                shadowRadius: Spacing,
-              },
-            ]}
-          />
+            <TouchableOpacity
+              onPress={togglePasswordVisibility}
+              style={{
+                position: "absolute",
+                top: Spacing * 3,
+                right: Spacing * 2,
+              }}
+            >
+              <Feather
+                name={showPassword ? "eye" : "eye-off"}
+                size={20}
+                color={Colors.darkText}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View>

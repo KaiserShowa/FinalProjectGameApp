@@ -20,6 +20,7 @@ const AddEmail = ({ formData, setFormData }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [focused, setFocused] = useState(false);
+  const [error, setError] = useState("");
 
   const dispatchAction = () => {
     dispatch(setEmail(mail));
@@ -30,6 +31,17 @@ const AddEmail = ({ formData, setFormData }) => {
       setMail(user.email);
     }
   }, []);
+
+  const validateEmail = (input) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(input);
+  };
+
+  const handleBlur = () => {
+    if (!validateEmail(mail)) {
+      setError("Invalid email address");
+    }
+  };
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -52,10 +64,14 @@ const AddEmail = ({ formData, setFormData }) => {
         placeholder="Email address"
         name="email"
         onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onBlur={() => {
+          setFocused(false);
+          handleBlur();
+        }}
         placeholderTextColor={Colors.darkText}
         onChangeText={(e) => {
           setFormData({ ...formData, email: e });
+          setError("");
           //onTextChange(e);
           //dispatchAction;
         }}
@@ -79,16 +95,18 @@ const AddEmail = ({ formData, setFormData }) => {
         ]}
       />
 
-      {/* <AppTextInput
-        value={mail}
-        onChangeText={(e) => {
-          setMail(e);
-          onTextChange(e);
-          dispatchAction;
-        }}
-        name="email"
-        placeholder="Email address"
-      /> */}
+      {error ? (
+        <Text
+          style={{
+            fontFamily: "Poppins_400Regular",
+            color: "red",
+            fontSize: FontSize.small,
+            marginTop: Spacing / 2,
+          }}
+        >
+          {error}
+        </Text>
+      ) : null}
     </View>
   );
 };

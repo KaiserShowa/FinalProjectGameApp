@@ -78,12 +78,6 @@ const AddAge = ({ formData, setFormData }) => {
           },
         ]}
       />
-      {/* <AppTextInput
-        value={agee}
-        onChangeText={(newAge) => handleAgeChange(newAge)}
-        name="Age"
-        placeholder="Age"
-      /> */}
     </View>
   );
 };

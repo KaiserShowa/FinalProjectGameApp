@@ -3,8 +3,9 @@ import userReducer from "./userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
-  userLogin: { userInfo: JSON.stringify(AsyncStorage.getItem("user")) },
+  userLogin: { userInfo: AsyncStorage.getItem("user") },
 };
+
 const store = configureStore({
   initialState,
   reducer: {

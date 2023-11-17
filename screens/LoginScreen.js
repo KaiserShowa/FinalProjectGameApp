@@ -15,7 +15,14 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userActions";
 import { Feather } from "@expo/vector-icons";
+import Loader from "../components/Loader";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
 
 import {
   useFonts,
@@ -30,6 +37,7 @@ const LoginScreen = ({ navigation }) => {
   const [focused, setFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -38,7 +46,8 @@ const LoginScreen = ({ navigation }) => {
   const validateForm = () => {
     if (!email || !password) {
       setError("Invalid email or password");
-      return false;
+    } else {
+      setError("");
     }
   };
 
@@ -53,8 +62,14 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    if (validateForm()) {
-      dispatch(login(email, password));
+    validateForm(); // Check for form validity and set errors if needed
+    if (!error) {
+      // Proceed only if there are no errors
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        dispatch(login(email, password, navigation));
+      }, 3000);
     }
   };
 
@@ -69,6 +84,9 @@ const LoginScreen = ({ navigation }) => {
   }
   return (
     <SafeAreaView>
+      <AlertNotificationRoot>
+        <Loader visible={loading} />
+      </AlertNotificationRoot>
       <View
         style={{
           padding: Spacing * 2,
@@ -90,12 +108,13 @@ const LoginScreen = ({ navigation }) => {
             Hello there!
           </Text>
         </View>
+
         <Text
           style={{
             fontFamily: "Poppins_400Regular",
             fontSize: FontSize.small,
-            color: "red", // Use a color for error messages
-            alignSelf: "center", // Align error message to the left
+            color: "red",
+            alignSelf: "center",
             marginVertical: Spacing / 2,
           }}
         >
@@ -211,7 +230,7 @@ const LoginScreen = ({ navigation }) => {
             padding: Spacing * 2,
             backgroundColor: Colors.green,
             marginVertical: Spacing * 3,
-            borderRadius: Spacing,
+            borderRadius: 50,
             shadowColor: Colors.primary,
             shadowOffset: {
               width: 0,

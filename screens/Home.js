@@ -20,7 +20,7 @@ import {
 
 const { height } = Dimensions.get("window");
 
-const SuccessScreen = ({ navigation }) => {
+const Home = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -36,7 +36,7 @@ const SuccessScreen = ({ navigation }) => {
       {/* LottieView in a separate container */}
       <View style={StyleSheet.absoluteFill}>
         <LottieView
-          source={require("../assets/lottie/Welcome2.json")}
+          source={require("../assets/lottie/Welcome1.json")}
           autoPlay
           loop
         />
@@ -53,18 +53,18 @@ const SuccessScreen = ({ navigation }) => {
               textAlign: "center",
             }}
           >
-            Welcome
+            Hurray!!!
           </Text>
           <Text
             style={{
-              fontSize: FontSize.small,
+              fontSize: FontSize.large,
               color: Colors.text,
               fontFamily: "Poppins_400Regular",
               textAlign: "center",
               marginTop: Spacing * 2,
             }}
           >
-            Your profile has been created.
+            Lets have some fun...
           </Text>
         </View>
         <View
@@ -95,7 +95,7 @@ const SuccessScreen = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              Proceed to login
+              Continue to home
             </Text>
           </TouchableOpacity>
         </View>
@@ -104,6 +104,6 @@ const SuccessScreen = ({ navigation }) => {
   );
 };
 
-export default SuccessScreen;
+export default Home;
 
 const styles = StyleSheet.create({});

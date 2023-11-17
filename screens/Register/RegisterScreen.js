@@ -8,12 +8,19 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useState } from "react";
+import Loader from "../../components/Loader";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { registerUser } from "../../redux/userActions";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
 
 import AddName from "./AddName";
 import AddEmail from "./AddEmail";
@@ -41,6 +48,8 @@ const RegisterScreen = ({ navigation }) => {
   const age = useSelector((state) => state.user.Age);
   const fullname = useSelector((state) => state.user.fullName);
 
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     fullName: fullname,
     Age: age,
@@ -52,7 +61,31 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleSubmit = () => {
     const { fullName, Age, email, password } = formData; // Correct the property names here
-    dispatch(registerUser(fullName, Age, email, password, navigation));
+
+    setLoading(true);
+
+    setTimeout(() => {
+      try {
+        setLoading(false);
+        dispatch(registerUser(fullName, Age, email, password, navigation));
+        Dialog.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Congrats! registration success",
+          button: "close",
+          onHide: () => {
+            navigation.navigate("SuccessScreen");
+          },
+        });
+      } catch (error) {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: "error",
+          textBody: error,
+          button: "close",
+        });
+      }
+    }, 3000);
   };
 
   const [progressBar, setProgressBar] = useState(new Animated.Value(0));
@@ -89,7 +122,7 @@ const RegisterScreen = ({ navigation }) => {
         style={{
           padding: Spacing * 2,
           backgroundColor: Colors.gray,
-          marginVertical: Spacing * 10,
+          marginVertical: Spacing * 3,
           borderRadius: Spacing,
           shadowColor: Colors.green,
           shadowOffset: {
@@ -119,8 +152,9 @@ const RegisterScreen = ({ navigation }) => {
         style={{
           padding: Spacing * 2,
           backgroundColor: Colors.green,
-          marginVertical: Spacing * 10,
-          borderRadius: Spacing,
+          marginVertical: 10,
+          marginTop: 300,
+          borderRadius: 50,
           shadowColor: Colors.primary,
           shadowOffset: {
             width: 0,
@@ -170,7 +204,7 @@ const RegisterScreen = ({ navigation }) => {
             padding: Spacing,
             backgroundColor: Colors.primary,
 
-            borderRadius: Spacing,
+            borderRadius: 50,
             shadowColor: Colors.primary,
             shadowOffset: {
               width: 0,
@@ -266,7 +300,7 @@ const RegisterScreen = ({ navigation }) => {
           padding: Spacing * 2,
           backgroundColor: Colors.primary,
           marginVertical: Spacing * 3,
-          borderRadius: Spacing,
+          borderRadius: 50,
           shadowColor: Colors.primary,
           shadowOffset: {
             width: 0,
@@ -364,6 +398,10 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView>
+      <AlertNotificationRoot>
+        <Loader visible={loading} />
+      </AlertNotificationRoot>
+
       <View
         style={{
           padding: Spacing * 2,
@@ -389,7 +427,7 @@ const RegisterScreen = ({ navigation }) => {
         {renderBack()}
 
         {/* Render social accounts */}
-        {renderSocials()}
+        {/* {renderSocials()} */}
       </View>
     </SafeAreaView>
   );

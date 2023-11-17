@@ -7,6 +7,7 @@ const green = "#1CAC78";
 const lightBlue = "#f1f4ff";
 const accent = "#00FF00";
 const red = "	#ff0000";
+const grey = "#D5E2F6";
 
 export default {
   darkText: dark,
@@ -21,4 +22,5 @@ export default {
   progressColor: accent,
   green: green,
   red: red,
+  grey: grey,
 };

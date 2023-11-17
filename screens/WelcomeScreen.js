@@ -47,7 +47,7 @@ const WelcomeScreen = ({ navigation }) => {
             duraton="1500"
             source={require("../assets/images/logo2.png")}
             style={styles.logo}
-            resizeMode="stretch"
+            resizeMode="center"
           />
           <Text
             style={{
@@ -75,8 +75,8 @@ const WelcomeScreen = ({ navigation }) => {
         <View
           style={{
             paddingHorizontal: Spacing * 2,
-            paddingTop: Spacing * 6,
-            flexDirection: "row",
+            paddingTop: Spacing * 4,
+            // flexDirection: "row",
           }}
         >
           <TouchableOpacity
@@ -85,8 +85,8 @@ const WelcomeScreen = ({ navigation }) => {
               backgroundColor: Colors.green,
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
-              width: "48%",
-              borderRadius: Spacing,
+              //width: "48%",
+              borderRadius: 50,
               shadowColor: Colors.primary,
               shadowOffset: {
                 width: 0,
@@ -110,10 +110,12 @@ const WelcomeScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => navigation.navigate("RegisterScreen")}
             style={{
+              backgroundColor: Colors.grey,
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
-              width: "48%",
-              borderRadius: Spacing,
+              // Add marginTop for vertical space
+              marginTop: Spacing,
+              borderRadius: 50,
             }}
           >
             <Text

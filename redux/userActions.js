@@ -40,8 +40,8 @@ export const registerUser =
       // User registration successful
       // You can update the user state if needed
       console.log("User registered successfully");
-      alert("Registeration success");
-      navigation.navigate("SuccessScreen");
+      // alert("Registeration success");
+      //navigation.navigate("SuccessScreen");
 
       return {
         success: true,
@@ -58,7 +58,7 @@ export const registerUser =
     }
   };
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password, navigation) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
@@ -69,21 +69,32 @@ export const login = (email, password) => async (dispatch) => {
 
     console.log(data);
 
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: { email: data.email, password: data.password },
-    });
-
-    AsyncStorage.setItem("user", JSON.stringify(data));
-
     if (error) {
-      // Handle registration error
-      console.error("Login error: ", error);
+      // Handle login error
+      //console.error("Login error: ", error);
+      dispatch({ type: USER_LOGIN_FAIL });
       return {
         success: false,
         message: "User Login failed",
       };
     }
+
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: { email: data.email, password: data.password },
+    });
+
+    // AsyncStorage.setItem("user", JSON.stringify(data))
+    //   .then(() => console.log("Data stored successfully"))
+    //   .catch((error) => console.error("AsyncStorage error: ", error));
+
+    // AsyncStorage.getItem("user")
+    //   .then((user) => {
+    //     console.log("Retrieved user data: ", JSON.parse(user));
+    //   })
+    //   .catch((error) => console.error("AsyncStorage retrieval error: ", error));
+
+    navigation.navigate("WelcomeLogin");
 
     return {
       success: true,

@@ -71,7 +71,7 @@ const WelcomeLogin = ({ navigation }) => {
           style={{ paddingHorizontal: Spacing * 2, paddingTop: Spacing * 45 }}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("Dashboard")}
             style={{
               backgroundColor: Colors.green,
               paddingVertical: Spacing * 1.5,

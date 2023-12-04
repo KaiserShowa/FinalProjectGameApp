@@ -34,13 +34,7 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* LottieView in a separate container */}
-      <View style={StyleSheet.absoluteFill}>
-        <LottieView
-          source={require("../assets/lottie/Welcome1.json")}
-          autoPlay
-          loop
-        />
-      </View>
+
       <View style={{ flex: 1 }}>
         <View
           style={{ paddingHorizontal: Spacing * 4, paddingTop: Spacing * 4 }}

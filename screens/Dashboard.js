@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Colors from "../constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DrawerItemList,
   createDrawerNavigator,
@@ -11,11 +12,35 @@ import Profile from "./Navigation/Profile";
 import RateApp from "./Navigation/RateApp";
 import Settings from "./Navigation/Settings";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { supabase } from "../supabase/supabase";
 
 const Drawer = createDrawerNavigator();
 const icon = require("../assets/images/photo.jpeg");
 
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
+  const [profileImage, setProfileImage] = useState(null);
+  useEffect(() => {}, [navigation]);
+
+  const handleLogout = async () => {
+    const { user, error } = await supabase.auth.signOut();
+    navigation.navigate("LoginScreen");
+  };
+
+  useEffect(() => {
+    const retrieveStoredProfileImage = async () => {
+      try {
+        const storedImagePath = await AsyncStorage.getItem("profileImage");
+        if (storedImagePath) {
+          setProfileImage({ uri: storedImagePath }); // Set the image source using { uri: storedImagePath }
+        }
+      } catch (error) {
+        console.error("Error retrieving stored profile image: ", error);
+      }
+    };
+
+    retrieveStoredProfileImage();
+  }, []);
+
   return (
     <Drawer.Navigator
       drawerContent={(props) => {
@@ -32,7 +57,7 @@ const Dashboard = () => {
               }}
             >
               <Image
-                source={icon}
+                source={profileImage}
                 style={{
                   height: 130,
                   width: 130,
@@ -116,18 +141,6 @@ const Dashboard = () => {
           title: "Settings",
           drawerIcon: () => (
             <SimpleLineIcons name="settings" size={20} color="#808080" />
-          ),
-        }}
-        component={Settings}
-      />
-
-      <Drawer.Screen
-        name="Logout"
-        options={{
-          drawerLabel: "Logout",
-          title: "Logout",
-          drawerIcon: () => (
-            <SimpleLineIcons name="logout" size={20} color="#808080" />
           ),
         }}
         component={Settings}

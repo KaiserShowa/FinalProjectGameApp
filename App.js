@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -19,6 +20,7 @@ import Dashboard from "./screens/Dashboard";
 import Settings from "./screens/Navigation/Settings";
 import RateApp from "./screens/Navigation/RateApp";
 import Profile from "./screens/Navigation/Profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,8 +36,8 @@ function App() {
           <Stack.Screen name="Dashboard" component={Dashboard} />
           {/* <Stack.Screen name="Settings" component={Settings} />
           
-          <Stack.Screen name="RateApp" component={RateApp} />
-          <Stack.Screen name="Profile" component={Profile} /> */}
+          <Stack.Screen name="RateApp" component={RateApp} />*/}
+          <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="SuccessScreen" component={SuccessScreen} />

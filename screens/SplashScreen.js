@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
   Text,
@@ -14,8 +16,33 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
 import Colors from "../constants/Colors";
 import Spacing from "../constants/Spacing";
+import { fetchUserData } from "../redux/store";
 
 const SplashScreen = ({ navigation }) => {
+  useEffect(() => {
+    // Check if the user is logged in by looking for a session token or identifier
+    const checkLoginSession = async () => {
+      try {
+        const sessionToken = await AsyncStorage.getItem("user");
+        // If the session token exists, navigate to the dashboard
+        if (sessionToken) {
+          // Navigate the user to the dashboard screen
+          navigation.navigate("Dashboard");
+        }
+      } catch (error) {
+        console.error("Error checking login session:", error);
+      }
+    };
+
+    checkLoginSession();
+  }, []);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+  }, [dispatch]);
+
   const { colors } = useTheme();
 
   return (

@@ -5,6 +5,7 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  SET_PROFILE_IMAGE,
 } from "../constants/userConstant";
 
 export const registerUser =
@@ -24,6 +25,7 @@ export const registerUser =
           data: {
             full_name: fullName,
             age: Age,
+            profilePix: "no_photo",
           },
         },
       });
@@ -67,7 +69,7 @@ export const login = (email, password, navigation) => async (dispatch) => {
       password: password,
     });
 
-    console.log(data);
+    //console.log(data);
 
     if (error) {
       // Handle login error
@@ -84,15 +86,9 @@ export const login = (email, password, navigation) => async (dispatch) => {
       payload: { email: data.email, password: data.password },
     });
 
-    // AsyncStorage.setItem("user", JSON.stringify(data))
-    //   .then(() => console.log("Data stored successfully"))
-    //   .catch((error) => console.error("AsyncStorage error: ", error));
-
-    // AsyncStorage.getItem("user")
-    //   .then((user) => {
-    //     console.log("Retrieved user data: ", JSON.parse(user));
-    //   })
-    //   .catch((error) => console.error("AsyncStorage retrieval error: ", error));
+    AsyncStorage.setItem("user", JSON.stringify(data))
+      .then(() => console.log("Data stored successfully"))
+      .catch((error) => console.error("AsyncStorage error: ", error));
 
     navigation.navigate("WelcomeLogin");
 
@@ -108,3 +104,9 @@ export const login = (email, password, navigation) => async (dispatch) => {
     };
   }
 };
+
+// Action Creator
+export const setProfileImage = (image) => ({
+  type: SET_PROFILE_IMAGE,
+  payload: image,
+});

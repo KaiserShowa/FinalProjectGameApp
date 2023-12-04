@@ -5,6 +5,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGOUT,
+  SET_PROFILE_IMAGE,
 } from "../constants/userConstant";
 
 const userSlice = createSlice({
@@ -46,10 +47,29 @@ const userSlice = createSlice({
           return state;
       }
     },
+
+    profilePix: (state = initialState, action) => {
+      switch (action.type) {
+        case SET_PROFILE_IMAGE:
+          return {
+            ...state,
+            profileImage: action.payload,
+          };
+
+        default:
+          return state;
+      }
+    },
   },
 });
 
-export const { setFullname, setAge, setEmail, setPassword, loginUser } =
-  userSlice.actions;
+export const {
+  setFullname,
+  setAge,
+  setEmail,
+  setPassword,
+  loginUser,
+  profilePix,
+} = userSlice.actions;
 
 export default userSlice.reducer;

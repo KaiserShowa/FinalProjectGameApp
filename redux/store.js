@@ -1,5 +1,9 @@
 import { configureStore, createAsyncThunk } from "@reduxjs/toolkit";
-import userReducer from "./userSlice";
+import userReducer from "./reducers/userSlice";
+import topicReducer from "./reducers/topicReducer";
+import subjectReducer from "./reducers/subjectReducer";
+import quizSettingReducer from "./reducers/quizSettingReducer";
+import questionReducer from "./reducers/questionReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Action to fetch user data asynchronously
@@ -24,6 +28,10 @@ const store = configureStore({
   initialState,
   reducer: {
     user: userReducer,
+    subject: subjectReducer,
+    topic: topicReducer,
+    quizSetting: quizSettingReducer,
+    question: questionReducer,
   },
 });
 

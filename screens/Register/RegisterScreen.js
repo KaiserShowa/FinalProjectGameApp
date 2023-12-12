@@ -14,7 +14,7 @@ import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { registerUser } from "../../redux/userActions";
+import { registerUser } from "../../redux/actions/userActions";
 import {
   ALERT_TYPE,
   Dialog,
@@ -38,7 +38,7 @@ const RegisterScreen = ({ navigation }) => {
   const [formCount, setFormCount] = useState(0);
   const formTitles = [
     " What is your name?",
-    " How old are you?",
+    " What is your birth date?",
     " What is your email address?",
     " Create a password?",
   ];

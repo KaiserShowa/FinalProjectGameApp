@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FontSize from "../../constants/FontSize";
-import { profilePix } from "../../redux/userSlice";
-import { setProfileImage } from "../../redux/userActions";
+import { profilePix } from "../../redux/reducers/userSlice";
+import { setProfileImage } from "../../redux/actions/userActions";
 import Spacing from "../../constants/Spacing";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";

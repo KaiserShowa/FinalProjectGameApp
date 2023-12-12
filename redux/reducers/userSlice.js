@@ -6,7 +6,7 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGOUT,
   SET_PROFILE_IMAGE,
-} from "../constants/userConstant";
+} from "../../constants/userConstant";
 
 const userSlice = createSlice({
   name: "user",

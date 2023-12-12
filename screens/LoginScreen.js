@@ -13,7 +13,7 @@ import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/userActions";
+import { login } from "../redux/actions/userActions";
 import { Feather } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import Icon from "react-native-vector-icons/FontAwesome";

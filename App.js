@@ -20,6 +20,7 @@ import Dashboard from "./screens/Dashboard";
 import Settings from "./screens/Navigation/Settings";
 import RateApp from "./screens/Navigation/RateApp";
 import Profile from "./screens/Navigation/Profile";
+import Quiz from "./screens/Navigation/Quiz";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
@@ -34,9 +35,10 @@ function App() {
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
-          {/* <Stack.Screen name="Settings" component={Settings} />
-          
-          <Stack.Screen name="RateApp" component={RateApp} />*/}
+          {/* <Stack.Screen name="Settings" component={Settings} />*/}
+
+          <Stack.Screen name="Quiz" component={Quiz} />
+
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Colors from "../../constants/Colors";
 import FontSize from "../../constants/FontSize";
 import { useSelector, useDispatch } from "react-redux";
-import { setPassword } from "../../redux/userSlice";
+import { setPassword } from "../../redux/reducers/userSlice";
 
 import {
   useFonts,

@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Platform,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setAge } from "../../redux/userSlice";
+import { setAge } from "../../redux/reducers/userSlice";
 import Spacing from "../../constants/Spacing";
 import Colors from "../../constants/Colors";
 import FontSize from "../../constants/FontSize";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import {
   useFonts,
@@ -14,9 +22,10 @@ import {
 } from "@expo-google-fonts/poppins";
 
 const AddAge = ({ formData, setFormData }) => {
-  const [agee, setAgee] = useState(0);
+  const [agee, setAgee] = useState("");
   const [focused, setFocused] = useState(false);
-
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPiker] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -30,6 +39,26 @@ const AddAge = ({ formData, setFormData }) => {
       setAgee(user.Age);
     }
   }, []);
+
+  const toggleDatePicker = () => {
+    setShowPiker(!showPicker);
+  };
+
+  const onChange = ({ type }, selectedDate) => {
+    if (type === "set") {
+      const currentDate = selectedDate;
+
+      setFormData({ ...formData, Age: currentDate.toDateString() });
+      setDate(currentDate);
+
+      if (Platform.OS === "android") {
+        toggleDatePicker();
+        setAgee(currentDate.toDateString());
+      }
+    } else {
+      toggleDatePicker();
+    }
+  };
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -47,37 +76,54 @@ const AddAge = ({ formData, setFormData }) => {
         marginVertical: Spacing * 3,
       }}
     >
-      <TextInput
-        value={formData.Age}
-        name="Age"
-        placeholder="Age"
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        placeholderTextColor={Colors.darkText}
-        onChangeText={(e) => {
-          setFormData({ ...formData, Age: e });
-          //onTextChange(e);
-          //dispatchAction;
-        }}
-        style={[
-          {
-            //flex: 1,
-            fontSize: FontSize.small,
-            padding: Spacing * 2,
-            backgroundColor: Colors.lightPrimary,
-            borderRadius: Spacing,
-            marginVertical: Spacing,
-          },
-          focused && {
-            borderWidth: 3,
-            borderColor: Colors.primary,
-            shadowOffset: { width: 4, height: Spacing },
-            shadowColor: Colors.primary,
-            shadowOpacity: 0.2,
-            shadowRadius: Spacing,
-          },
-        ]}
-      />
+      {showPicker && (
+        <DateTimePicker
+          mode="date"
+          display="spinner"
+          //testID="dateTimePicker"
+          value={date}
+          //maximumDate={new Date(2030, 12, 20)}
+          //minimumDate={new Date()}
+          //is24Hour={true}
+          onChange={onChange}
+        />
+      )}
+      {!showPicker && (
+        <Pressable onPress={toggleDatePicker}>
+          <TextInput
+            value={agee}
+            name="Age"
+            editable={false}
+            placeholder="Date of Birth"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            placeholderTextColor={Colors.darkText}
+            onChangeText={(e) => {
+              setFormData({ ...formData, Age: e });
+              //onTextChange(e);
+              //dispatchAction;
+            }}
+            style={[
+              {
+                //flex: 1,
+                fontSize: FontSize.small,
+                padding: Spacing * 2,
+                backgroundColor: Colors.lightPrimary,
+                borderRadius: Spacing,
+                marginVertical: Spacing,
+              },
+              focused && {
+                borderWidth: 3,
+                borderColor: Colors.primary,
+                shadowOffset: { width: 4, height: Spacing },
+                shadowColor: Colors.primary,
+                shadowOpacity: 0.2,
+                shadowRadius: Spacing,
+              },
+            ]}
+          />
+        </Pressable>
+      )}
     </View>
   );
 };

@@ -1,12 +1,17 @@
-import { setFullname, setAge, setEmail, setPassword } from "./userSlice";
-import { supabase } from "../supabase/supabase";
+import {
+  setFullname,
+  setAge,
+  setEmail,
+  setPassword,
+} from "../reducers/userSlice";
+import { supabase } from "../../supabase/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   SET_PROFILE_IMAGE,
-} from "../constants/userConstant";
+} from "../../constants/userConstant";
 
 export const registerUser =
   (fullName, Age, email, password, navigation) => async (dispatch) => {
